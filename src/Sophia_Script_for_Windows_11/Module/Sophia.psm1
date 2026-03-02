@@ -7871,11 +7871,11 @@ function WindowsAI
 		$Enable
 	)
 
+	# [AtlasOS CONFLICT] WindowsCopilot policy keys preserved (Atlas sets TurnOffWindowsCopilot=1)
+	# Only remove WindowsAI policies, not WindowsCopilot ones
 	$Paths = @(
 		"HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI",
-		"HKCU:\Software\Policies\Microsoft\Windows\WindowsAI",
-		"HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot",
-		"HKCU:\Software\Policies\Microsoft\Windows\WindowsCopilot"
+		"HKCU:\Software\Policies\Microsoft\Windows\WindowsAI"
 	)
 	Remove-Item -Path $Paths -Force -ErrorAction Ignore
 	Remove-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WindowsAI\DisableAIDataAnalysis -Name value -Force -ErrorAction Ignore

@@ -347,7 +347,7 @@ public static extern bool SetForegroundWindow(IntPtr hWnd);
 		# https://revi.cc
 		"Revision Tool"     = "${env:ProgramFiles(x86)}\Revision Tool"
 		# https://github.com/Atlas-OS/Atlas
-		AtlasOS              = "$env:SystemRoot\AtlasModules"
+		# AtlasOS              = "$env:SystemRoot\AtlasModules"
 		# https://boosterx.ru
 		BoosterX            = "$env:ProgramFiles\GameModeX\GameModeX.exe"
 		# https://www.youtube.com/watch?v=5NBqbUUB1Pk
@@ -512,8 +512,8 @@ public static extern bool SetForegroundWindow(IntPtr hWnd);
 	# Checking whether necessary Microsoft Defender components exists
 	$Files = [Array]::TrueForAll(@(
 		"$env:SystemRoot\System32\smartscreen.exe",
-		"$env:SystemRoot\System32\SecurityHealthSystray.exe",
-		"$env:SystemRoot\System32\CompatTelRunner.exe"
+		"$env:SystemRoot\System32\SecurityHealthSystray.exe"
+		# "$env:SystemRoot\System32\CompatTelRunner.exe"
 	),
 	[Predicate[string]]{
 		param($File)

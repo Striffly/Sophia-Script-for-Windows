@@ -113,7 +113,7 @@ DiagTrackService -Disable
 
 # Set the diagnostic data collection to minimum
 # Установить уровень сбора диагностических данных ОС на минимальный
-DiagnosticDataLevel -Minimal
+# DiagnosticDataLevel -Minimal # [AtlasOS CONFLICT] Atlas sets AllowTelemetry=0, Sophia would overwrite to 1
 
 # Set the diagnostic data collection to default (default value)
 # Установить уровень сбора диагностических данных ОС по умолчанию (значение по умолчанию)
@@ -121,7 +121,7 @@ DiagnosticDataLevel -Minimal
 
 # Turn off the Windows Error Reporting
 # Отключить запись отчетов об ошибках Windows
-ErrorReporting -Disable
+# ErrorReporting -Disable # [AtlasOS CONFLICT] Atlas sets WER policies at policy-level, Sophia removes them
 
 # Turn on the Windows Error Reporting (default value)
 # Включить отчеты об ошибках Windows (значение по умолчанию)
@@ -129,7 +129,7 @@ ErrorReporting -Disable
 
 # Change the feedback frequency to "Never"
 # Изменить частоту формирования отзывов на "Никогда"
-FeedbackFrequency -Never
+# FeedbackFrequency -Never # [AtlasOS CONFLICT] Atlas sets DoNotShowFeedbackNotifications policy, Sophia removes it
 
 # Change the feedback frequency to "Automatically" (default value)
 # Изменить частоту формирования отзывов на "Автоматически" (значение по умолчанию)
@@ -153,7 +153,7 @@ SigninInfo -Disable
 
 # Do not let websites provide locally relevant content by accessing language list
 # Не позволять веб-сайтам предоставлять местную информацию за счет доступа к списку языков
-LanguageListAccess -Disable
+# LanguageListAccess -Disable # [AtlasOS REDUNDANT] Atlas Privacy.psm1 HttpAcceptLanguageOptOut=1
 
 # Let websites provide locally relevant content by accessing language list (default value)
 # Позволить веб-сайтам предоставлять местную информацию за счет доступа к списку языков (значение по умолчанию)
@@ -161,7 +161,7 @@ LanguageListAccess -Disable
 
 # Do not let apps show me personalized ads by using my advertising ID
 # Не разрешать приложениям показывать персонализированную рекламу с помощью моего идентификатора рекламы
-AdvertisingID -Disable
+# AdvertisingID -Disable # [AtlasOS CONFLICT] Atlas sets DisabledByGroupPolicy policy, Sophia removes it
 
 # Let apps show me personalized ads by using my advertising ID (default value)
 # Разрешить приложениям показывать персонализированную рекламу с помощью моего идентификатора рекламы (значение по умолчанию)
@@ -169,7 +169,7 @@ AdvertisingID -Disable
 
 # Hide the Windows welcome experiences after updates and occasionally when I sign in to highlight what's new and suggested
 # Скрывать экран приветствия Windows после обновлений и иногда при входе, чтобы сообщить о новых функциях и предложениях
-WindowsWelcomeExperience -Hide
+# WindowsWelcomeExperience -Hide # [AtlasOS REDUNDANT] Atlas config-content-delivery.yml SubscribedContent-310093=0
 
 # Show the Windows welcome experiences after updates and occasionally when I sign in to highlight what's new and suggested (default value)
 # Показывать экран приветствия Windows после обновлений и иногда при входе, чтобы сообщить о новых функциях и предложениях (значение по умолчанию)
@@ -177,15 +177,15 @@ WindowsWelcomeExperience -Hide
 
 # Get tips and suggestions when I use Windows (default value)
 # Получать советы и предложения при использованию Windows (значение по умолчанию)
-WindowsTips -Enable
+# WindowsTips -Enable [CUSTOM]
 
 # Do not get tips and suggestions when I use Windows
 # Не получать советы и предложения при использованию Windows
-# WindowsTips -Disable
+# WindowsTips -Disable  # [AtlasOS CONFLICT] Atlas sets DisableSoftLanding policy, Sophia removes it
 
 # Hide from me suggested content in the Settings app
 # Скрывать рекомендуемое содержимое в приложении "Параметры"
-SettingsSuggestedContent -Hide
+# SettingsSuggestedContent -Hide # [AtlasOS REDUNDANT] Atlas config-content-delivery.yml SubscribedContent-338393/353694/353696=0
 
 # Show me suggested content in the Settings app (default value)
 # Показывать рекомендуемое содержимое в приложении "Параметры" (значение по умолчанию)
@@ -193,7 +193,7 @@ SettingsSuggestedContent -Hide
 
 # Turn off automatic installing suggested apps
 # Отключить автоматическую установку рекомендованных приложений
-AppsSilentInstalling -Disable
+# AppsSilentInstalling -Disable # [AtlasOS REDUNDANT] Atlas config-content-delivery.yml SilentInstalledAppsEnabled=0
 
 # Turn on automatic installing suggested apps (default value)
 # Включить автоматическую установку рекомендованных приложений (значение по умолчанию)
@@ -201,7 +201,7 @@ AppsSilentInstalling -Disable
 
 # Do not suggest ways to get the most out of Windows and finish setting up this device
 # Не предлагать способы завершения настройки этого устройства для наиболее эффективного использования Windows
-WhatsNewInWindows -Disable
+# WhatsNewInWindows -Disable # [AtlasOS REDUNDANT] Atlas disable-suggest-ways-finish-setup.yml ScoobeSystemSettingEnabled=0
 
 # Suggest ways to get the most out of Windows and finish setting up this device (default value)
 # Предложить способы завершения настройки этого устройства для наиболее эффективного использования Windows (значение по умолчанию)
@@ -209,7 +209,7 @@ WhatsNewInWindows -Disable
 
 # Don't let Microsoft use your diagnostic data for personalized tips, ads, and recommendations
 # Не разрешать корпорации Майкрософт использовать диагностические данные персонализированных советов, рекламы и рекомендаций
-TailoredExperiences -Disable
+# TailoredExperiences -Disable # [AtlasOS CONFLICT] Atlas sets DisableTailoredExperiencesWithDiagnosticData policy, Sophia removes it
 
 # Let Microsoft use your diagnostic data for personalized tips, ads, and recommendations (default value)
 # Разрешить корпорации Майкрософт использовать диагностические данные для персонализированных советов, рекламы и рекомендаций (значение по умолчанию)
@@ -217,7 +217,7 @@ TailoredExperiences -Disable
 
 # Disable Bing search in Start Menu
 # Отключить в меню "Пуск" поиск через Bing
-BingSearch -Disable
+# BingSearch -Disable # [AtlasOS REDUNDANT] Atlas search-settings.yml DisableSearchBoxSuggestions=1 + BingSearchEnabled=0
 
 # Enable Bing search in Start Menu (default value)
 # Включить поиск через Bing в меню "Пуск" (значение по умолчанию)
@@ -235,7 +235,7 @@ ThisPC -Show
 
 # Do not use item check boxes
 # Не использовать флажки для выбора элементов
-CheckBoxes -Disable
+# CheckBoxes -Disable # [AtlasOS REDUNDANT] Atlas disable-check-boxes.yml AutoCheckSelect=0
 
 # Use check item check boxes (default value)
 # Использовать флажки для выбора элементов (значение по умолчанию)
@@ -243,7 +243,7 @@ CheckBoxes -Disable
 
 # Show hidden files, folders, and drives
 # Отобразить скрытые файлы, папки и диски
-HiddenItems -Enable
+# HiddenItems -Enable # [AtlasOS REDUNDANT] Atlas show-files.yml Hidden=1
 
 # Do not show hidden files, folders, and drives (default value)
 # Не показывать скрытые файлы, папки и диски (значение по умолчанию)
@@ -251,7 +251,7 @@ HiddenItems -Enable
 
 # Show file name extensions
 # Отобразить расширения имён файлов
-FileExtensions -Show
+# FileExtensions -Show # [AtlasOS REDUNDANT] Atlas show-files.yml HideFileExt=0
 
 # Hide file name extensions (default value)
 # Скрывать расширения имён файлов файлов (значение по умолчанию)
@@ -267,7 +267,7 @@ MergeConflicts -Show
 
 # Open File Explorer to "This PC"
 # Открывать проводник для "Этот компьютер"
-OpenFileExplorerTo -ThisPC
+# OpenFileExplorerTo -ThisPC # [AtlasOS REDUNDANT] Atlas open-to-this-pc.yml LaunchTo=1
 
 # Open File Explorer to Quick access (default value)
 # Открывать проводник для "Быстрый доступ" (значение по умолчанию)
@@ -275,7 +275,7 @@ OpenFileExplorerTo -ThisPC
 
 # Disable File Explorer compact mode (default value)
 # Отключить компактный вид проводника (значение по умолчанию)
-FileExplorerCompactMode -Disable
+# FileExplorerCompactMode -Disable # [AtlasOS CONFLICT] Atlas use-compact-mode.yml UseCompactMode=1 (Atlas active le mode compact, Sophia le désactive)
 
 # Enable File Explorer compact mode
 # Включить компактный вид проводника
@@ -283,7 +283,7 @@ FileExplorerCompactMode -Disable
 
 # Hide sync provider notification within File Explorer
 # Не показывать уведомления поставщика синхронизации в проводнике
-OneDriveFileExplorerAd -Hide
+# OneDriveFileExplorerAd -Hide # [AtlasOS REDUNDANT] Atlas disable-sync-provider-notifs.yml ShowSyncProviderNotifications=0
 
 # Show sync provider notification within File Explorer (default value)
 # Показывать уведомления поставщика синхронизации в проводнике (значение по умолчанию)
@@ -299,7 +299,7 @@ SnapAssist -Disable
 
 # Show the file transfer dialog box in the detailed mode
 # Отображать диалоговое окно передачи файлов в развернутом виде
-FileTransferDialog -Detailed
+# FileTransferDialog -Detailed # [AtlasOS REDUNDANT] Atlas always-more-details-transfer.yml EnthusiastMode=1
 
 # Show the file transfer dialog box in the compact mode (default value)
 # Отображать диалоговое окно передачи файлов в свернутом виде (значение по умолчанию)
@@ -315,7 +315,7 @@ RecycleBinDeleteConfirmation -Enable
 
 # Hide recently used files in Quick access
 # Скрыть недавно использовавшиеся файлы на панели быстрого доступа
-QuickAccessRecentFiles -Hide
+# QuickAccessRecentFiles -Hide # [AtlasOS CONFLICT] Atlas hide-frequently-used-items.yml ShowRecent=0 identique, MAIS Sophia supprime NoRecentDocsHistory que Atlas configure à 1
 
 # Show recently used files in Quick access (default value)
 # Показать недавно использовавшиеся файлы на панели быстрого доступа (значение по умолчанию)
@@ -323,7 +323,7 @@ QuickAccessRecentFiles -Hide
 
 # Hide frequently used folders in Quick access
 # Скрыть недавно используемые папки на панели быстрого доступа
-QuickAccessFrequentFolders -Hide
+# QuickAccessFrequentFolders -Hide # [AtlasOS REDUNDANT] Atlas hide-frequently-used-items.yml ShowFrequent=0
 
 # Show frequently used folders in Quick access (default value)
 # Показать часто используемые папки на панели быстрого доступа (значение по умолчанию)
@@ -339,7 +339,7 @@ TaskbarAlignment -Center
 
 # Hide the widgets icon on the taskbar
 # Скрыть кнопку "Мини-приложения" с панели задач
-TaskbarWidgets -Hide
+# TaskbarWidgets -Hide # [AtlasOS CONFLICT] Supprime AllowNewsAndInterests policy (Dsh) qu'Atlas configure via disable-news-and-interests.yml
 
 # Show the widgets icon on the taskbar (default value)
 # Отобразить кнопку "Мини-приложения" на панели задач (значение по умолчанию)
@@ -347,7 +347,7 @@ TaskbarWidgets -Hide
 
 # Hide the search on the taskbar
 # Скрыть поле или значок поиска на панели задач
-TaskbarSearch -Hide
+# TaskbarSearch -Hide # [AtlasOS CONFLICT] Atlas affiche en icône
 
 # Show the search icon on the taskbar
 # Показать значок поиска на панели задач
@@ -363,7 +363,7 @@ TaskbarSearch -Hide
 
 # Hide search highlights
 # Скрыть главное в поиске
-SearchHighlights -Hide
+# SearchHighlights -Hide # [AtlasOS CONFLICT] Supprime EnableDynamicContentInWSB policy qu'Atlas configure via search-settings.yml
 
 # Show search highlights (default value)
 # Показать главное в поиске (значение по умолчанию)
@@ -371,7 +371,7 @@ SearchHighlights -Hide
 
 # Hide the Task view button from the taskbar
 # Скрыть кнопку "Представление задач" с панели задач
-TaskViewButton -Hide
+# TaskViewButton -Hide # [AtlasOS REDUNDANT] Atlas hide-task-view.yml ShowTaskViewButton=0
 
 # Show the Task view button on the taskbar (default value)
 # Отобразить кнопку "Представление задач" на панели задач (значение по умолчанию)
@@ -379,7 +379,7 @@ TaskViewButton -Hide
 
 # Show seconds on the taskbar clock
 # Показывать секунды на часах на панели задач
-SecondsInSystemClock -Show
+# SecondsInSystemClock -Show
 
 # Hide seconds on the taskbar clock (default value)
 # Скрыть секунды на часах на панели задач (значение по умолчанию)
@@ -407,11 +407,11 @@ TaskbarCombine -Always
 
 # Unpin Microsoft Edge, Microsoft Store, and Outlook shortcuts from the taskbar
 # Открепить ярлыки Microsoft Edge, Microsoft Store и Outlook от панели задач
-UnpinTaskbarShortcuts -Shortcuts Edge, Store, Outlook
+# UnpinTaskbarShortcuts -Shortcuts Edge, Store, Outlook # [AtlasOS REDUNDANT] Atlas config-pins.yml supprime déjà les pins Edge, Store, Outlook
 
 # Enable end task in taskbar by right click
 # Включить завершение задачи на панели задач правой кнопкой мыши
-TaskbarEndTask -Enable
+# TaskbarEndTask -Enable # [AtlasOS REDUNDANT] Atlas end-task.yml TaskbarEndTask=1
 
 # Disable end task in taskbar by right click (default value)
 # Выключить завершение задачи на панели задач правой кнопкой мыши (значение по умолчанию)
@@ -431,7 +431,7 @@ ControlPanelView -LargeIcons
 
 # Set the default Windows mode to dark
 # Установить режим Windows по умолчанию на темный
-WindowsColorMode -Dark
+# WindowsColorMode -Dark # [AtlasOS REDUNDANT] Atlas atlas-theme.yml dark theme
 
 # Set the default Windows mode to light (default value)
 # Установить режим Windows по умолчанию на светлый (значение по умолчанию)
@@ -439,7 +439,7 @@ WindowsColorMode -Dark
 
 # Set the default app mode to dark
 # Установить цвет режима приложения на темный
-AppColorMode -Dark
+# AppColorMode -Dark # [AtlasOS REDUNDANT] Atlas atlas-theme.yml dark theme
 
 # Set the default app mode to light (default value)
 # Установить цвет режима приложения на светлый (значение по умолчанию)
@@ -455,7 +455,7 @@ FirstLogonAnimation -Disable
 
 # Set the quality factor of the JPEG desktop wallpapers to maximum
 # Установить коэффициент качества обоев рабочего стола в формате JPEG на максимальный
-JPEGWallpapersQuality -Max
+# JPEGWallpapersQuality -Max # [AtlasOS REDUNDANT] Atlas best-wallpaper-quality.yml JPEGImportQuality=100
 
 # Set the quality factor of the JPEG desktop wallpapers to default
 # Установить коэффициент качества обоев рабочего стола в формате JPEG по умолчанию
@@ -463,7 +463,7 @@ JPEGWallpapersQuality -Max
 
 # Do not add the "- Shortcut" suffix to the file name of created shortcuts
 # Нe дoбaвлять "- яpлык" к имени coздaвaeмых яpлыков
-ShortcutsSuffix -Disable
+# ShortcutsSuffix -Disable # [AtlasOS REDUNDANT] Atlas remove-shortcut-text.yml ShortcutNameTemplate="%s.lnk"
 
 # Add the "- Shortcut" suffix to the file name of created shortcuts (default value)
 # Дoбaвлять "- яpлык" к имени coздaвaeмых яpлыков (значение по умолчанию)
@@ -471,7 +471,7 @@ ShortcutsSuffix -Disable
 
 # Use the Print screen button to open screen snipping
 # Использовать кнопку PRINT SCREEN, чтобы запустить функцию создания фрагмента экрана
-PrtScnSnippingTool -Enable
+# PrtScnSnippingTool -Enable # [AtlasOS CONFLICT] Atlas disable-screen-capture-hotkey.yml PrintScreenKeyForSnippingEnabled=0 (Atlas désactive, Snipping Tool supprimé)
 
 # Do not use the Print screen button to open screen snipping (default value)
 # Не использовать кнопку PRINT SCREEN, чтобы запустить функцию создания фрагмента экрана (значение по умолчанию)
@@ -479,15 +479,15 @@ PrtScnSnippingTool -Enable
 
 # Let me use a different input method for each app window
 # Позволить выбирать метод ввода для каждого окна
-AppsLanguageSwitch -Enable
+# AppsLanguageSwitch -Enable # [CUSTOM]
 
 # Do not use a different input method for each app window (default value)
 # Не использовать метод ввода для каждого окна (значение по умолчанию)
-# AppsLanguageSwitch -Disable
+AppsLanguageSwitch -Disable # [CUSTOM]
 
 # When I grab a windows's title bar and shake it, minimize all other windows
 # При захвате заголовка окна и встряхивании сворачиваются все остальные окна
-AeroShaking -Enable
+# AeroShaking -Enable # [AtlasOS CONFLICT] Atlas disable-aero-shake.yml DisallowShaking=1 (Atlas désactive Aero Shake, déclenchement accidentel)
 
 # When I grab a windows's title bar and shake it, don't minimize all other windows (default value)
 # При захвате заголовка окна и встряхивании не сворачиваются все остальные окна (значение по умолчанию)
@@ -496,7 +496,7 @@ AeroShaking -Enable
 # Download and install free dark "Windows 11 Cursors Concept" cursors from Jepri Creations. Internet connection required
 # Скачать и установить бесплатные темные курсоры "Windows 11 Cursors Concept" от Jepri Creations. Требуется соединение с интернетом
 # https://www.deviantart.com/jepricreations/art/Windows-11-Cursors-Concept-886489356
-Install-Cursors -Dark
+# Install-Cursors -Dark # [CUSTOM]
 
 # Download and install free light "Windows 11 Cursors Concept" cursors from Jepri Creations. Internet connection required
 # Скачать и установить бесплатные светлые курсоры "Windows 11 Cursors Concept" от Jepri Creations. Требуется соединение с интернетом
@@ -505,15 +505,15 @@ Install-Cursors -Dark
 
 # Set default cursors
 # Установить курсоры по умолчанию
-# Cursors -Default
+Cursors -Default # [CUSTOM]
 
 # Do not group files and folder in the Downloads folder
 # Не группировать файлы и папки в папке Загрузки
-FolderGroupBy -None
+# FolderGroupBy -None
 
 # Group files and folder by date modified in the Downloads folder (default value)
 # Группировать файлы и папки по дате изменения (значение по умолчанию)
-# FolderGroupBy -Default
+FolderGroupBy -Default
 
 # Do not expand to open folder on navigation pane (default value)
 # Не разворачивать до открытой папки область навигации (значение по умолчанию)
@@ -525,7 +525,7 @@ NavigationPaneExpand -Disable
 
 # Hide recently added apps in Start
 # Не показывать недавно добавленные приложения на начальном экране
-RecentlyAddedStartApps -Hide
+# RecentlyAddedStartApps -Hide # [AtlasOS CONFLICT] Supprime HideRecentlyAddedApps policy qu'Atlas configure via config-start-menu.yml
 
 # Show recently added apps in Start (default value)
 # Показывать недавно добавленные приложения на начальном экране (значение по умолчанию)
@@ -533,7 +533,7 @@ RecentlyAddedStartApps -Hide
 
 # Hide most used apps in Start (default value)
 # Не показывать наиболее часто используемые приложения на начальном экране (значение по умолчанию)
-MostUsedStartApps -Hide
+# MostUsedStartApps -Hide # [AtlasOS CONFLICT] Supprime ShowOrHideMostUsedApps + NoStartMenuMFUprogramsList policies qu'Atlas configure
 
 # Show most used Apps in Start
 # Показывать наиболее часто используемые приложения на начальном экране
@@ -541,7 +541,7 @@ MostUsedStartApps -Hide
 
 # Remove Recommended section in Start
 # Удалить раздел "Рекомендуем" на начальном экране
-StartRecommendedSection -Hide
+# StartRecommendedSection -Hide # [AtlasOS CONFLICT] Supprime 7+ policies d'un coup (HideRecentlyAddedApps, ShowOrHideMostUsedApps, NoStartMenuMFUprogramsList...)
 
 # Show Recommended section in Start (default value)
 # Показывать раздел "Рекомендуем" на начальном экране
@@ -549,7 +549,7 @@ StartRecommendedSection -Hide
 
 # Hide recommendations for tips, shortcuts, new apps, and more in Start
 # Не показать рекомендации с советами, сочетаниями клавиш, новыми приложениями и т. д. на начальном экране
-StartRecommendationsTips -Hide
+# StartRecommendationsTips -Hide # [AtlasOS REDUNDANT] Atlas no-recommendations-start-menu.yml Start_IrisRecommendations=0
 
 # Show recommendations for tips, shortcuts, new apps, and more in Start (default value)
 # Показать рекомендации с советами, сочетаниями клавиш, новыми приложениями и т. д. на начальном экране (значение по умолчанию)
@@ -557,7 +557,7 @@ StartRecommendationsTips -Hide
 
 # Hide Microsoft account-related notifications on Start
 # Не отображать на начальном экране уведомления, касающиеся учетной записи Microsoft
-StartAccountNotifications -Hide
+# StartAccountNotifications -Hide # [AtlasOS REDUNDANT] Atlas no-recommendations-start-menu.yml Start_AccountNotifications=0
 
 # Show Microsoft account-related notifications on Start (default value)
 # Отображать на начальном экране уведомления, касающиеся учетной записи Microsoft (значение по умолчанию)
@@ -569,7 +569,7 @@ StartAccountNotifications -Hide
 
 # Show more pins on Start
 # Отображать больше закреплений на начальном экране
-StartLayout -ShowMorePins
+# StartLayout -ShowMorePins # [AtlasOS REDUNDANT] Atlas show-more-pins.yml Start_Layout=1
 
 # Show more recommendations on Start
 # Отображать больше рекомендаций на начальном экране
@@ -579,7 +579,7 @@ StartLayout -ShowMorePins
 #region OneDrive
 # Uninstall OneDrive. OneDrive user folder won't be removed if any file found there
 # Удалить OneDrive. Папка пользователя OneDrive не будет удалена при обнаружении в ней файлов
-# OneDrive -Uninstall
+# OneDrive -Uninstall # [AtlasOS REDUNDANT] Atlas removes OneDrive at component level
 
 # Install OneDrive (default value)
 # Установить OneDrive 64-бит (значение по умолчанию)
@@ -593,7 +593,7 @@ StartLayout -ShowMorePins
 #region System
 # Turn on Storage Sense
 # Включить Контроль памяти
-StorageSense -Enable
+# StorageSense -Enable # [AtlasOS REDUNDANT] Atlas config-storage-sense.yml covers same + more settings
 
 # Turn off Storage Sense (default value)
 # Выключить Контроль памяти (значение по умолчанию)
@@ -601,7 +601,7 @@ StorageSense -Enable
 
 # Disable hibernation. Not recommended for laptops
 # Отключить режим гибернации. Не рекомендуется для ноутбуков
-Hibernation -Disable
+# Hibernation -Disable # [AtlasOS REDUNDANT] Atlas script-power.yml powercfg /h off
 
 # Enable hibernate (default value)
 # Включить режим гибернации (значение по умолчанию)
@@ -609,7 +609,7 @@ Hibernation -Disable
 
 # Enable Windows long paths support which is limited for 260 characters by default
 # Включить поддержку длинных путей, ограниченных по умолчанию 260 символами
-Win32LongPathsSupport -Enable
+# Win32LongPathsSupport -Enable # [AtlasOS REDUNDANT] Atlas enable-long-paths.yml LongPathsEnabled=1
 
 # Disable Windows long paths support which is limited for 260 characters by default (default value)
 # Отключить поддержку длинных путей, ограниченных по умолчанию 260 символами (значение по умолчанию)
@@ -617,7 +617,7 @@ Win32LongPathsSupport -Enable
 
 # Display Stop error code when BSoD occurs
 # Отображать код Stop-ошибки при появлении BSoD
-BSoDStopError -Enable
+# BSoDStopError -Enable # [AtlasOS REDUNDANT] Atlas crash-control-qol.yml DisplayParameters=1
 
 # Do not display stop error code when BSoD occurs (default value)
 # Не отображать код Stop-ошибки при появлении BSoD (значение по умолчанию)
@@ -625,15 +625,15 @@ BSoDStopError -Enable
 
 # Choose when to be notified about changes to your computer: never notify
 # Настройка уведомления об изменении параметров компьютера: никогда не уведомлять
-AdminApprovalMode -Never
+# AdminApprovalMode -Never # [AtlasOS CONFLICT] Écrase PromptOnSecureDesktop=0 d'Atlas (disable-uac-secure-desktop.yml) en le remettant à 1
 
 # Choose when to be notified about changes to your computer: notify me only when apps try to make changes to my computer (default value)
 # Настройка уведомления об изменении параметров компьютера: уведомлять меня только при попытках приложений внести изменения в компьютер (значение по умолчанию)
-# AdminApprovalMode -Default
+# AdminApprovalMode -Default # [AtlasOS CONFLICT] Écrase PromptOnSecureDesktop=0 d'Atlas (disable-uac-secure-desktop.yml) en le remettant à 1
 
 # Turn off Delivery Optimization
 # Выключить оптимизацию доставки
-DeliveryOptimization -Disable
+# DeliveryOptimization -Disable # [AtlasOS CONFLICT] Atlas sets DODownloadMode policy, Sophia removes it
 
 # Turn on Delivery Optimization (default value)
 # Включить оптимизацию доставки (значение по умолчанию)
@@ -662,15 +662,15 @@ WindowsFeatures -Disable
 
 # Uninstall optional features using pop-up dialog box
 # Удалить дополнительные компоненты, используя всплывающее диалоговое окно
-WindowsCapabilities -Uninstall
+# WindowsCapabilities -Uninstall # [CUSTOM]
 
 # Install optional features using pop-up dialog box
 # Установить дополнительные компоненты, используя всплывающее диалоговое окно
-# WindowsCapabilities -Install
+WindowsCapabilities -Install # [CUSTOM]
 
 # Receive updates for other Microsoft products
 # Получать обновления для других продуктов Майкрософт
-UpdateMicrosoftProducts -Enable
+# UpdateMicrosoftProducts -Enable
 
 # Do not receive updates for other Microsoft products (default value)
 # Не получать обновления для других продуктов Майкрософт (значение по умолчанию)
@@ -686,19 +686,19 @@ RestartNotification -Show
 
 # Restart as soon as possible to finish updating
 # Перезапустить устройство как можно быстрее, чтобы завершить обновление
-RestartDeviceAfterUpdate -Enable
+# RestartDeviceAfterUpdate -Enable # [CUSTOM]
 
 # Don't restart as soon as possible to finish updating (default value)
 # Не перезапускать устройство как можно быстрее, чтобы завершить обновление (значение по умолчанию)
-# RestartDeviceAfterUpdate -Disable
+RestartDeviceAfterUpdate -Disable # [CUSTOM]
 
 # Automatically adjust active hours for me based on daily usage
 # Автоматически изменять период активности для этого устройства на основе действий
-ActiveHours -Automatically
+# ActiveHours -Automatically # [AtlasOS CONFLICT] Supprime NoAutoRebootWithLoggedOnUsers qu'Atlas a configuré
 
 # Manually adjust active hours for me based on daily usage (default value)
 # Вручную изменять период активности для этого устройства на основе действий (значение по умолчанию)
-# ActiveHours -Manually
+# ActiveHours -Manually # [AtlasOS CONFLICT] Supprime NoAutoRebootWithLoggedOnUsers qu'Atlas a configuré
 
 # Do not get the latest updates as soon as they're available (default value)
 # Не получать последние обновления, как только они будут доступны (значение по умолчанию)
@@ -710,7 +710,7 @@ WindowsLatestUpdate -Disable
 
 # Set power plan on "High performance". Not recommended for laptops
 # Установить схему управления питанием на "Высокая производительность". Не рекомендуется для ноутбуков
-PowerPlan -High
+# PowerPlan -High # [AtlasOS CONFLICT] Atlas crée son propre plan "Atlas Power Scheme" (Ultimate Performance customisé)
 
 # Set power plan on "Balanced" (default value)
 # Установить схему управления питанием на "Сбалансированная" (значение по умолчанию)
@@ -726,15 +726,15 @@ NetworkAdaptersSavePower -Disable
 
 # Override for default input method: English
 # Переопределить метод ввода по умолчанию: английский
-InputMethod -English
+# InputMethod -English # [CUSTOM]
 
 # Override for default input method: use language list (default value)
 # Переопределить метод ввода по умолчанию: использовать список языков (значение по умолчанию)
-# InputMethod -Default
+InputMethod -Default # [CUSTOM]
 
 # Change location of user folders to the root of any drive using the interactive menu. User files or folders won't be moved to a new location
 # Изменить расположение пользовательских папки в корень любого диска на выбор с помощью интерактивного меню. Пользовательские файлы и папки не будут перемещены в новое расположение
-Set-UserShellFolderLocation -Root
+# Set-UserShellFolderLocation -Root # [CUSTOM]
 
 # Select location of user folders manually using a folder browser dialog. User files or folders won't be moved to a new location
 # Выбрать папки для расположения пользовательских папок вручную, используя диалог "Обзор папок". Пользовательские файлы и папки не будут перемещены в новое расположение
@@ -742,15 +742,15 @@ Set-UserShellFolderLocation -Root
 
 # Change user folders location to default values. User files or folders won't be moved to the new location
 # Изменить расположение пользовательских папок на значения по умолчанию. Пользовательские файлы и папки не будут перемещены в новое расположение
-# Set-UserShellFolderLocation -Default
+# Set-UserShellFolderLocation -Default # [CUSTOM]
 
 # Save screenshots on the Desktop when pressing Windows+PrtScr or using Windows+Shift+S
 # Сохранять скриншоты по нажатию Windows+PrtScr или Windows+Shift+S на рабочий стол
-WinPrtScrFolder -Desktop
+# WinPrtScrFolder -Desktop # [CUSTOM]
 
 # Save screenshots in the Pictures folder when pressing Windows+PrtScr or using Windows+Shift+S (default value)
 # Cохранять скриншоты по нажатию Windows+PrtScr или Windows+Shift+S в папку "Изображения" (значение по умолчанию)
-# WinPrtScrFolder -Default
+WinPrtScrFolder -Default # [CUSTOM]
 
 <#
 	Run troubleshooter automatically, then notify me
@@ -759,7 +759,7 @@ WinPrtScrFolder -Desktop
 	Автоматически запускать средства устранения неполадок, а затем уведомлять
 	Чтобы заработала данная функция, уровень сбора диагностических данных ОС будет установлен на "Необязательные диагностические данные" и включится создание отчетов об ошибках Windows
 #>
-RecommendedTroubleshooting -Automatically
+# RecommendedTroubleshooting -Automatically # [CUSTOM]
 
 <#
 	Ask me before running troubleshooter (default value)
@@ -768,11 +768,11 @@ RecommendedTroubleshooting -Automatically
 	Спрашивать перед запуском средств устранения неполадок (значение по умолчанию)
 	Чтобы заработала данная функция, уровень сбора диагностических данных ОС будет установлен на "Необязательные диагностические данные" и включится создание отчетов об ошибках Windows
 #>
-# RecommendedTroubleshooting -Default
+# RecommendedTroubleshooting -Default # [AtlasOS CONFLICT] Réactive AllowTelemetry, WerSvc, QueueReporting et supprime les policies WER qu'Atlas désactive explicitement
 
 # Disable and delete reserved storage after the next update installation
 # Отключить и удалить зарезервированное хранилище после следующей установки обновлений
-ReservedStorage -Disable
+# ReservedStorage -Disable # [AtlasOS REDUNDANT] Atlas disable-reserved-storage.yml DISM /Set-ReservedStorageState
 
 # Enable reserved storage (default value)
 # Включить зарезервированное хранилище (значение по умолчанию)
@@ -804,7 +804,7 @@ NumLock -Enable
 
 # Turn off pressing the Shift key 5 times to turn Sticky keys
 # Выключить залипание клавиши Shift после 5 нажатий
-StickyShift -Disable
+# StickyShift -Disable # [AtlasOS REDUNDANT] Atlas disable-annoying-features-shortcuts.yml StickyKeys Flags=0
 
 # Turn on pressing the Shift key 5 times to turn Sticky keys (default value)
 # Включить залипание клавиши Shift после 5 нажатий (значение по умолчанию)
@@ -812,7 +812,7 @@ StickyShift -Disable
 
 # Don't use AutoPlay for all media and devices
 # Не использовать автозапуск для всех носителей и устройств
-Autoplay -Disable
+# Autoplay -Disable # [AtlasOS REDUNDANT] Atlas config-autorun.yml DisableAutoplay=1
 
 # Use AutoPlay for all media and devices (default value)
 # Использовать автозапуск для всех носителей и устройств (значение по умолчанию)
@@ -828,11 +828,11 @@ ThumbnailCacheRemoval -Disable
 
 # Automatically saving my restartable apps and restart them when I sign back in
 # Автоматически сохранять мои перезапускаемые приложения из системы и перезапускать их при повторном входе
-SaveRestartableApps -Enable
+# SaveRestartableApps -Enable # [CUSTOM]
 
 # Turn off automatically saving my restartable apps and restart them when I sign back in (default value)
 # Выключить автоматическое сохранение моих перезапускаемых приложений из системы и перезапускать их при повторном входе (значение по умолчанию)
-# SaveRestartableApps -Disable
+SaveRestartableApps -Disable # [CUSTOM]
 
 # Do not restore previous folder windows at logon (default value)
 # Не восстанавливать прежние окна папок при входе в систему (значение по умолчанию)
@@ -844,11 +844,11 @@ RestorePreviousFolders -Disable
 
 # Enable "Network Discovery" and "File and Printers Sharing" for workgroup networks
 # Включить сетевое обнаружение и общий доступ к файлам и принтерам для рабочих групп
-NetworkDiscovery -Enable
+# NetworkDiscovery -Enable # [CUSTOM]
 
 # Disable "Network Discovery" and "File and Printers Sharing" for workgroup networks (default value)
 # Выключить сетевое обнаружение и общий доступ к файлам и принтерам для рабочих групп (значение по умолчанию)
-# NetworkDiscovery -Disable
+NetworkDiscovery -Disable # [CUSTOM]
 
 <#
 	Register app, calculate hash, and associate with an extension with the "How do you want to open this" pop-up hidden
@@ -883,16 +883,16 @@ DefaultTerminalApp -WindowsTerminal
 
 # Install the latest Microsoft Visual C++ Redistributable Packages 2017–2026 (x86/x64). Internet connection required
 # Установить последнюю версию распространяемых пакетов Microsoft Visual C++ 2017–2026 (x86/x64). Требуется соединение с интернетом
-Install-VCRedist
+# Install-VCRedist # [CUSTOM]
 
 # Install the latest .NET Desktop Runtime 8, 9, 10 x64. Internet connection required
 # Установить последнюю версию .NET Desktop Runtime 8, 9, 10 x64. Требуется соединение с интернетом
-Install-DotNetRuntimes -Runtimes NET8, NET9, NET10
+# Install-DotNetRuntimes -Runtimes NET8, NET9, NET10 # [CUSTOM]
 
 # Enable proxying only blocked sites from the unified registry of Roskomnadzor. Applicable for Russia only
 # Включить проксирование только заблокированных сайтов из единого реестра Роскомнадзора. Функция применима только для России
 # https://antizapret.prostovpn.org
-AntizapretProxy -Enable
+# AntizapretProxy -Enable # [CUSTOM]
 
 # Disable proxying only blocked sites from the unified registry of Roskomnadzor (default value)
 # Выключить проксирование только заблокированных сайтов из единого реестра Роскомнадзора (значение по умолчанию)
@@ -909,7 +909,7 @@ PreventEdgeShortcutCreation -Channels Stable, Beta, Dev, Canary
 
 # Back up the system registry to %SystemRoot%\System32\config\RegBack folder when PC restarts and create a RegIdleBackup in the Task Scheduler task to manage subsequent backups
 # Создавать копии реестра при перезагрузке ПК и задание RegIdleBackup в Планировщике для управления последующими резервными копиями
-RegistryBackup -Enable
+# RegistryBackup -Enable # [CUSTOM]
 
 # Do not back up the system registry to %SystemRoot%\System32\config\RegBack folder (default value)
 # Не создавать копии реестра при перезагрузке ПК (значение по умолчанию)
@@ -953,11 +953,11 @@ Uninstall-UWPApps
 	Отключить Xbox Game Bar
 	Чтобы предотвратить появление предупреждения "Вам понадобится новое приложение, чтобы открыть этот ms-gamingoverlay", вам необходимо отключить приложение Xbox Game Bar, даже если вы удалили его раньше
 #>
-XboxGameBar -Disable
+# XboxGameBar -Disable # [CUSTOM]
 
 # Enable Xbox Game Bar (default value)
 # Включить Xbox Game Bar (значение по умолчанию)
-# XboxGameBar -Enable
+XboxGameBar -Enable # [CUSTOM]
 
 # Disable Xbox Game Bar tips
 # Отключить советы Xbox Game Bar
@@ -974,11 +974,11 @@ XboxGameTips -Disable
 	Включить планирование графического процессора с аппаратным ускорением. Необходима перезагрузка
 	Только при наличии внешней видеокарты и WDDM версии 2.7 и выше
 #>
-GPUScheduling -Enable
+# GPUScheduling -Enable # [CUSTOM]
 
 # Turn off hardware-accelerated GPU scheduling (default value). Restart needed
 # Выключить планирование графического процессора с аппаратным ускорением (значение по умолчанию). Необходима перезагрузка
-# GPUScheduling -Disable
+GPUScheduling -Disable # [CUSTOM]
 #endregion Gaming
 
 #region Scheduled tasks
@@ -1015,7 +1015,7 @@ SoftwareDistributionTask -Register
 	Создать задание "Temp" в Планировщике заданий по очистке папки %TEMP%
 	Удаляться будут только файлы старше одного дня. Задание выполняется каждые 60 дней. Необходимо включить Windows Script Host для того, чтобы работала функция
 #>
-TempTask -Register
+# TempTask -Register # [CUSTOM]
 
 # Delete the "Temp" scheduled task for cleaning up the %TEMP% folder
 # Удалить задание "Temp" по очистке папки %TEMP% из Планировщика заданий
@@ -1025,7 +1025,7 @@ TempTask -Register
 #region Microsoft Defender & Security
 # Enable Microsoft Defender Exploit Guard network protection
 # Включить защиту сети в Microsoft Defender Exploit Guard
-NetworkProtection -Enable
+# NetworkProtection -Enable
 
 # Disable Microsoft Defender Exploit Guard network protection (default value)
 # Выключить защиту сети в Microsoft Defender Exploit Guard (значение по умолчанию)
@@ -1033,7 +1033,7 @@ NetworkProtection -Enable
 
 # Enable detection for potentially unwanted applications and block them
 # Включить обнаружение потенциально нежелательных приложений и блокировать их
-PUAppsDetection -Enable
+# PUAppsDetection -Enable
 
 # Disable detection for potentially unwanted applications and block them (default value)
 # Выключить обнаружение потенциально нежелательных приложений и блокировать их (значение по умолчанию)
@@ -1041,7 +1041,7 @@ PUAppsDetection -Enable
 
 # Enable sandboxing for Microsoft Defender
 # Включить песочницу для Microsoft Defender
-DefenderSandbox -Enable
+# DefenderSandbox -Enable
 
 # Disable sandboxing for Microsoft Defender (default value)
 # Выключить песочницу для Microsoft Defender (значение по умолчанию)
@@ -1049,35 +1049,35 @@ DefenderSandbox -Enable
 
 # Create the "Process Creation" сustom view in the Event Viewer to log executed processes and their arguments
 # Создать настраиваемое представление "Создание процесса" в Просмотре событий для журналирования запускаемых процессов и их аргументов
-EventViewerCustomView -Enable
+# EventViewerCustomView -Enable # [CUSTOM]
 
 # Remove the "Process Creation" custom view in the Event Viewer to log executed processes and their arguments (default value)
 # Удалить настраиваемое представление "Создание процесса" в Просмотре событий для журналирования запускаемых процессов и их аргументов (значение по умолчанию)
-# EventViewerCustomView -Disable
+# EventViewerCustomView -Disable # [CUSTOM]
 
 # Enable logging for all Windows PowerShell modules
 # Включить ведение журнала для всех модулей Windows PowerShell
-PowerShellModulesLogging -Enable
+# PowerShellModulesLogging -Enable # [CUSTOM]
 
 # Disable logging for all Windows PowerShell modules (default value)
 # Выключить ведение журнала для всех модулей Windows PowerShell (значение по умолчанию)
-# PowerShellModulesLogging -Disable
+# PowerShellModulesLogging -Disable # [CUSTOM]
 
 # Enable logging for all PowerShell scripts input to the Windows PowerShell event log
 # Включить ведение журнала для всех вводимых сценариев PowerShell в журнале событий Windows PowerShell
-PowerShellScriptsLogging -Enable
+# PowerShellScriptsLogging -Enable # [CUSTOM]
 
 # Disable logging for all PowerShell scripts input to the Windows PowerShell event log (default value)
 # Выключить ведение журнала для всех вводимых сценариев PowerShell в журнале событий Windows PowerShell (значение по умолчанию)
-# PowerShellScriptsLogging -Disable
+# PowerShellScriptsLogging -Disable # [CUSTOM]
 
 # Microsoft Defender SmartScreen marks downloaded files from the Internet as unsafe (default value)
 # Microsoft Defender SmartScreen помечает скачанные файлы из интернета как небезопасные (значение по умолчанию)
-AppsSmartScreen -Enable
+# AppsSmartScreen -Enable # [CUSTOM]
 
 # Microsoft Defender SmartScreen doesn't marks downloaded files from the Internet as unsafe
 # Microsoft Defender SmartScreen не помечает скачанные файлы из интернета как небезопасные
-# AppsSmartScreen -Disable
+AppsSmartScreen -Disable # [CUSTOM]
 
 # Disable the Attachment Manager marking files that have been downloaded from the Internet as unsafe
 # Выключить проверку Диспетчером вложений файлов, скачанных из интернета, как небезопасные
@@ -1093,11 +1093,11 @@ SaveZoneInformation -Disable
 
 # Disable Windows Sandbox (default value). Applicable only to Professional, Enterprise and Education editions
 # Выключить Windows Sandbox (значение по умолчанию). Применимо только к редакциям Professional, Enterprise и Education
-# WindowsSandbox -Disable
+WindowsSandbox -Disable
 
 # Set up DNS from Cloudflare DNS using DNS-over-HTTPS
 # Установить DNS от Cloudflare, используя DNS-over-HTTPS
-DNSoverHTTPS -Cloudflare
+# DNSoverHTTPS -Cloudflare # [CUSTOM]
 
 # Set up DNS from Google Public DNS using DNS-over-HTTPS
 # Установить DNS от Google Public DNS, используя DNS-over-HTTPS
@@ -1105,7 +1105,7 @@ DNSoverHTTPS -Cloudflare
 
 # Set up DNS from Quad9 DNS using DNS-over-HTTPS
 # Установить DNS от Quad9, используя DNS-over-HTTPS
-# DNSoverHTTPS -Quad9
+DNSoverHTTPS -Quad9 # [CUSTOM]
 
 # Set up DNS from Comss.one DNS using DNS-over-HTTPS
 # Установить DNS от Comss.one, используя DNS-over-HTTPS
@@ -1125,7 +1125,7 @@ DNSoverHTTPS -Cloudflare
 
 # Enable Local Security Authority protection to prevent code injection
 # Включить защиту локальной системы безопасности, чтобы предотвратить внедрение кода
-# LocalSecurityAuthority -Enable
+# LocalSecurityAuthority -Enable # [AtlasOS CONFLICT] Atlas désactive VBS/RunAsPPL pour les performances
 
 # Disable Local Security Authority protection (default value)
 # Выключить защиту локальной системы безопасности (значение по умолчанию)
