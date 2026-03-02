@@ -924,6 +924,72 @@ WindowsAI -Disable
 # WindowsAI -Enable
 #endregion System
 
+#region Custom Tweaks
+# Lock Windows version to prevent forced feature upgrades (fixes Atlas TargetReleaseVersion bug)
+# Verrouiller la version de Windows pour empêcher les mises à niveau forcées (corrige le bug Atlas TargetReleaseVersion)
+LockWindowsVersion -Enable
+
+# Remove the version lock — allow Windows to upgrade to newer feature releases (default value)
+# Supprimer le verrouillage de version — autoriser Windows à passer aux nouvelles versions (valeur par défaut)
+# LockWindowsVersion -Disable
+
+# Disable the AutoLogger-Diagtrack-Listener ETW session (kernel-level telemetry, complements DiagTrackService)
+# Désactiver la session ETW AutoLogger-Diagtrack-Listener (télémétrie kernel, complète DiagTrackService)
+AutoLoggerDiagtrack -Disable
+
+# Enable the AutoLogger-Diagtrack-Listener ETW session (default value)
+# Activer la session ETW AutoLogger-Diagtrack-Listener (valeur par défaut)
+# AutoLoggerDiagtrack -Enable
+
+# Disable clipboard cloud sync and cross-device sharing (default value on fresh install)
+# Désactiver la synchronisation cloud du presse-papier et le partage entre appareils (valeur par défaut sur installation fraîche)
+ClipboardCloudSync -Disable
+
+# Enable clipboard cloud sync and cross-device sharing
+# Activer la synchronisation cloud du presse-papier et le partage entre appareils
+# ClipboardCloudSync -Enable
+
+# Disable network multimedia throttling — removes the legacy ~10 Mbps limit (gaming optimization)
+# Désactiver le bridage réseau multimédia — supprime la limite héritée de ~10 Mbps (optimisation gaming)
+NetworkThrottling -Disable
+
+# Enable network multimedia throttling (default value)
+# Activer le bridage réseau multimédia (valeur par défaut)
+# NetworkThrottling -Enable
+
+# Restore Windows 10 global timer behavior — if any app requests 1ms, timer becomes 1ms system-wide (VR/legacy games). Restart needed
+# Restaurer le comportement global du timer Windows 10 — si une app demande 1ms, le timer passe à 1ms pour tout le système (VR/jeux legacy). Redémarrage nécessaire
+GlobalTimerResolution -Enable
+
+# Use default Windows 11 per-process timer resolution (default value)
+# Utiliser la résolution de timer par processus par défaut de Windows 11 (valeur par défaut)
+# GlobalTimerResolution -Disable
+
+# Disable kernel paging to disk and page combining — reduces micro-stutters (>=16 GB RAM required)
+# Désactiver le paging kernel et la combinaison de pages — réduit les micro-stutters (>=16 Go de RAM requis)
+GamingMemory -Enable
+
+# Restore default memory paging behavior (default value)
+# Restaurer le comportement de pagination mémoire par défaut (valeur par défaut)
+# GamingMemory -Disable
+
+# Disable Edge Startup Boost and background mode — frees 150-300 MB of RAM
+# Désactiver le préchargement Edge et le mode arrière-plan — libère 150-300 Mo de RAM
+EdgePreloading -Disable
+
+# Enable Edge Startup Boost and background mode (default value)
+# Activer le préchargement Edge et le mode arrière-plan (valeur par défaut)
+# EdgePreloading -Enable
+
+# Disable Nagle algorithm and TCP delayed ACK — reduces gaming network latency by 10-40ms
+# Désactiver l'algorithme de Nagle et le TCP Delayed ACK — réduit la latence réseau gaming de 10-40ms
+NagleAlgorithm -Disable
+
+# Restore default TCP buffering behavior (default value)
+# Restaurer le comportement TCP par défaut (valeur par défaut)
+# NagleAlgorithm -Enable
+#endregion Custom Tweaks
+
 #region WSL
 # Enable Windows Subsystem for Linux (WSL), install the latest WSL Linux kernel version, and a Linux distribution using a pop-up form. Internet connection required
 # Установить подсистему Windows для Linux (WSL), последний пакет обновления ядра Linux и дистрибутив Linux, используя всплывающую форму. Требуется соединение с интернетом

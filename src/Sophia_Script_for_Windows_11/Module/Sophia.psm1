@@ -7911,6 +7911,466 @@ function WindowsAI
 }
 #endregion System
 
+#region Custom Tweaks
+<#
+	.SYNOPSIS
+	Lock Windows version to prevent forced feature upgrades (fixes Atlas TargetReleaseVersion bug)
+
+	.PARAMETER Enable
+	Lock the current Windows version — blocks automatic feature upgrades while allowing security updates
+
+	.PARAMETER Disable
+	Remove the version lock — allow Windows to upgrade to newer feature releases
+
+	.EXAMPLE
+	LockWindowsVersion -Enable
+
+	.EXAMPLE
+	LockWindowsVersion -Disable
+
+	.NOTES
+	Machine-wide
+#>
+function LockWindowsVersion
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable
+	)
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Enable"
+		{
+			$CurrentVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion
+			if (-not (Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"))
+			{
+				New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Force | Out-Null
+			}
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name TargetReleaseVersion -PropertyType DWord -Value 1 -Force
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name ProductVersion -PropertyType String -Value "Windows 11" -Force
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name TargetReleaseVersionInfo -PropertyType String -Value $CurrentVersion -Force
+		}
+		"Disable"
+		{
+			Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name TargetReleaseVersion -Force -ErrorAction Ignore
+			Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name ProductVersion -Force -ErrorAction Ignore
+			Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name TargetReleaseVersionInfo -Force -ErrorAction Ignore
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	AutoLogger-Diagtrack-Listener ETW session (kernel-level telemetry)
+
+	.PARAMETER Disable
+	Disable the AutoLogger-Diagtrack-Listener ETW session that starts at kernel level before services
+
+	.PARAMETER Enable
+	Enable the AutoLogger-Diagtrack-Listener ETW session (default value)
+
+	.EXAMPLE
+	AutoLoggerDiagtrack -Disable
+
+	.EXAMPLE
+	AutoLoggerDiagtrack -Enable
+
+	.NOTES
+	Machine-wide. Complements DiagTrackService by targeting the kernel-level ETW logger
+#>
+function AutoLoggerDiagtrack
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable
+	)
+
+	$AutoLoggerPath = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener"
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Disable"
+		{
+			if (Test-Path -Path $AutoLoggerPath)
+			{
+				New-ItemProperty -Path $AutoLoggerPath -Name Start -PropertyType DWord -Value 0 -Force
+			}
+		}
+		"Enable"
+		{
+			if (Test-Path -Path $AutoLoggerPath)
+			{
+				New-ItemProperty -Path $AutoLoggerPath -Name Start -PropertyType DWord -Value 1 -Force
+			}
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	Clipboard cloud synchronization
+
+	.PARAMETER Disable
+	Disable clipboard cloud sync and cross-device sharing (default value on fresh install)
+
+	.PARAMETER Enable
+	Enable clipboard cloud sync and cross-device sharing
+
+	.EXAMPLE
+	ClipboardCloudSync -Disable
+
+	.EXAMPLE
+	ClipboardCloudSync -Enable
+
+	.NOTES
+	Current user
+#>
+function ClipboardCloudSync
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable
+	)
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Disable"
+		{
+			if (-not (Test-Path "HKCU:\Software\Microsoft\Clipboard"))
+			{
+				New-Item -Path "HKCU:\Software\Microsoft\Clipboard" -Force | Out-Null
+			}
+			New-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name CloudClipboardAutomaticUpload -PropertyType DWord -Value 0 -Force
+			New-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name IsCloudAndCrossDeviceOn -PropertyType DWord -Value 0 -Force
+		}
+		"Enable"
+		{
+			New-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name CloudClipboardAutomaticUpload -PropertyType DWord -Value 1 -Force
+			New-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name IsCloudAndCrossDeviceOn -PropertyType DWord -Value 1 -Force
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	Network multimedia throttling
+
+	.PARAMETER Disable
+	Disable network throttling for multimedia — removes the legacy ~10 Mbps limit on non-MMCSS traffic
+
+	.PARAMETER Enable
+	Enable network throttling for multimedia (default value)
+
+	.EXAMPLE
+	NetworkThrottling -Disable
+
+	.EXAMPLE
+	NetworkThrottling -Enable
+
+	.NOTES
+	Machine-wide
+#>
+function NetworkThrottling
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable
+	)
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Disable"
+		{
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name NetworkThrottlingIndex -PropertyType DWord -Value 0xFFFFFFFF -Force
+		}
+		"Enable"
+		{
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name NetworkThrottlingIndex -PropertyType DWord -Value 10 -Force
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	Global timer resolution requests (critical for VR and legacy games)
+
+	.PARAMETER Enable
+	Restore Windows 10 global timer behavior — if any app requests 1ms, the timer becomes 1ms system-wide
+
+	.PARAMETER Disable
+	Use default Windows 11 22H2+ per-process timer resolution (default value)
+
+	.EXAMPLE
+	GlobalTimerResolution -Enable
+
+	.EXAMPLE
+	GlobalTimerResolution -Disable
+
+	.NOTES
+	Machine-wide. Restart needed. Slightly increases idle power consumption (~1-3W on laptop)
+#>
+function GlobalTimerResolution
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable
+	)
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Enable"
+		{
+			New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" -Name GlobalTimerResolutionRequests -PropertyType DWord -Value 1 -Force
+		}
+		"Disable"
+		{
+			Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" -Name GlobalTimerResolutionRequests -Force -ErrorAction Ignore
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	Memory paging settings for gaming (DisablePagingExecutive + DisablePageCombining)
+
+	.PARAMETER Enable
+	Disable kernel paging to disk and page combining — reduces micro-stutters on systems with >=16 GB RAM
+
+	.PARAMETER Disable
+	Restore default memory paging behavior (default value)
+
+	.EXAMPLE
+	GamingMemory -Enable
+
+	.EXAMPLE
+	GamingMemory -Disable
+
+	.NOTES
+	Machine-wide. Safe on systems with >=16 GB RAM. Increases memory usage by ~50-150 MB
+#>
+function GamingMemory
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable
+	)
+
+	$MemMgmt = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Enable"
+		{
+			New-ItemProperty -Path $MemMgmt -Name DisablePagingExecutive -PropertyType DWord -Value 1 -Force
+			New-ItemProperty -Path $MemMgmt -Name DisablePageCombining -PropertyType DWord -Value 1 -Force
+		}
+		"Disable"
+		{
+			New-ItemProperty -Path $MemMgmt -Name DisablePagingExecutive -PropertyType DWord -Value 0 -Force
+			New-ItemProperty -Path $MemMgmt -Name DisablePageCombining -PropertyType DWord -Value 0 -Force
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	Microsoft Edge preloading and background mode
+
+	.PARAMETER Disable
+	Disable Edge Startup Boost and background mode — frees 150-300 MB of RAM
+
+	.PARAMETER Enable
+	Enable Edge Startup Boost and background mode (default value)
+
+	.EXAMPLE
+	EdgePreloading -Disable
+
+	.EXAMPLE
+	EdgePreloading -Enable
+
+	.NOTES
+	Machine-wide (policy)
+#>
+function EdgePreloading
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable
+	)
+
+	if (-not (Get-Package -Name "Microsoft Edge" -ErrorAction Ignore))
+	{
+		Write-Information -MessageData "" -InformationAction Continue
+		Write-Verbose -Message (($Localization.PackageNotInstalled -f "Microsoft Edge"), ($Localization.Skipped -f $MyInvocation.Line.Trim()) -join " ") -Verbose
+		Write-Error -Message (($Localization.PackageNotInstalled -f "Microsoft Edge"), ($Localization.Skipped -f $MyInvocation.Line.Trim()) -join " ") -ErrorAction SilentlyContinue
+
+		return
+	}
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Disable"
+		{
+			if (-not (Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge"))
+			{
+				New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -Force | Out-Null
+			}
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -Name StartupBoostEnabled -PropertyType DWord -Value 0 -Force
+			New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -Name BackgroundModeEnabled -PropertyType DWord -Value 0 -Force
+		}
+		"Enable"
+		{
+			Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -Name StartupBoostEnabled -Force -ErrorAction Ignore
+			Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -Name BackgroundModeEnabled -Force -ErrorAction Ignore
+		}
+	}
+}
+
+<#
+	.SYNOPSIS
+	Nagle algorithm and TCP delayed ACK (per-NIC network latency optimization)
+
+	.PARAMETER Disable
+	Disable Nagle algorithm and TCP delayed ACK on all active physical adapters — reduces gaming network latency by 10-40ms
+
+	.PARAMETER Enable
+	Restore default TCP buffering behavior (default value)
+
+	.EXAMPLE
+	NagleAlgorithm -Disable
+
+	.EXAMPLE
+	NagleAlgorithm -Enable
+
+	.NOTES
+	Machine-wide. Applied per network interface. Negligible overhead on modern connections
+#>
+function NagleAlgorithm
+{
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Disable"
+		)]
+		[switch]
+		$Disable,
+
+		[Parameter(
+			Mandatory = $true,
+			ParameterSetName = "Enable"
+		)]
+		[switch]
+		$Enable
+	)
+
+	switch ($PSCmdlet.ParameterSetName)
+	{
+		"Disable"
+		{
+			Get-NetAdapter -Physical | Where-Object -FilterScript {$_.Status -eq "Up"} | ForEach-Object -Process {
+				$ifPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\$($_.InterfaceGuid)"
+				New-ItemProperty -Path $ifPath -Name TcpNoDelay -PropertyType DWord -Value 1 -Force
+				New-ItemProperty -Path $ifPath -Name TcpAckFrequency -PropertyType DWord -Value 1 -Force
+			}
+		}
+		"Enable"
+		{
+			Get-NetAdapter -Physical | Where-Object -FilterScript {$_.Status -eq "Up"} | ForEach-Object -Process {
+				$ifPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\$($_.InterfaceGuid)"
+				Remove-ItemProperty -Path $ifPath -Name TcpNoDelay -Force -ErrorAction Ignore
+				Remove-ItemProperty -Path $ifPath -Name TcpAckFrequency -Force -ErrorAction Ignore
+			}
+		}
+	}
+}
+#endregion Custom Tweaks
+
 #region WSL
 <#
 	.SYNOPSIS
